@@ -1,0 +1,399 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ── Base ──────────────────────────────────────────────────────────── */
+
+:root {
+  color-scheme: light;
+}
+
+html {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+  scroll-behavior: smooth;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* ── Typography Design System ─────────────────────────────────────────
+   Two weights, one system.
+   font-sans   = var(--font-nexa-light)  → body, UI, captions, forms
+   font-bold   = var(--font-nexa-bold)   → display, headings, buttons, labels
+──────────────────────────────────────────────────────────────────────── */
+
+@layer components {
+
+  /* ── DISPLAY ─────────────────────────────────────────────────────
+     Hero principal. Impacto máximo. Nexa Bold, tracking muito apertado.
+  ──────────────────────────────────────────────────────────────────── */
+
+  /* Display XL — Hero headline                                       */
+  /* Desktop: ~160px  Tablet: ~96px  Mobile: 64px                    */
+  .type-display-xl {
+    font-family: var(--font-nexa-bold);
+    font-size: clamp(4rem, 10.5vw, 10rem);
+    line-height: 0.88;
+    letter-spacing: -0.04em;
+  }
+
+  /* Display LG — Section opener                                      */
+  /* Desktop: ~96px   Tablet: ~72px  Mobile: 48px                    */
+  .type-display-lg {
+    font-family: var(--font-nexa-bold);
+    font-size: clamp(3rem, 7.5vw, 6rem);
+    line-height: 0.91;
+    letter-spacing: -0.035em;
+  }
+
+  /* ── HEADINGS ────────────────────────────────────────────────────
+     Hierarquia de secções e páginas. Sempre Nexa Bold.
+  ──────────────────────────────────────────────────────────────────── */
+
+  /* H1 — Título de página                                            */
+  /* Desktop: ~72px   Tablet: ~56px  Mobile: 40px                    */
+  .type-h1 {
+    font-family: var(--font-nexa-bold);
+    font-size: clamp(2.5rem, 5.5vw, 4.5rem);
+    line-height: 0.95;
+    letter-spacing: -0.03em;
+  }
+
+  /* H2 — Título de secção                                            */
+  /* Desktop: ~56px   Tablet: ~40px  Mobile: 32px                    */
+  .type-h2 {
+    font-family: var(--font-nexa-bold);
+    font-size: clamp(2rem, 4vw, 3.5rem);
+    line-height: 1.0;
+    letter-spacing: -0.025em;
+  }
+
+  /* H3 — Sub-secção                                                  */
+  /* Desktop: ~40px   Tablet: ~32px  Mobile: 26px                    */
+  .type-h3 {
+    font-family: var(--font-nexa-bold);
+    font-size: clamp(1.625rem, 3vw, 2.5rem);
+    line-height: 1.05;
+    letter-spacing: -0.02em;
+  }
+
+  /* H4 — Bloco de conteúdo                                           */
+  /* Desktop: ~32px   Tablet: ~26px  Mobile: 20px                    */
+  .type-h4 {
+    font-family: var(--font-nexa-bold);
+    font-size: clamp(1.25rem, 2.2vw, 2rem);
+    line-height: 1.1;
+    letter-spacing: -0.015em;
+  }
+
+  /* H5 — Heading menor                                               */
+  /* Desktop: 24px    Tablet: 20px   Mobile: 18px                    */
+  .type-h5 {
+    font-family: var(--font-nexa-bold);
+    font-size: clamp(1.125rem, 1.8vw, 1.5rem);
+    line-height: 1.2;
+    letter-spacing: -0.01em;
+  }
+
+  /* H6 — Micro heading                                               */
+  /* Desktop: 20px    Tablet: 18px   Mobile: 16px                    */
+  .type-h6 {
+    font-family: var(--font-nexa-bold);
+    font-size: clamp(1rem, 1.3vw, 1.25rem);
+    line-height: 1.3;
+    letter-spacing: -0.005em;
+  }
+
+  /* ── SUBTÍTULOS ──────────────────────────────────────────────────
+     Texto de apoio a headings. Nexa Light, mais espaçado.
+  ──────────────────────────────────────────────────────────────────── */
+
+  /* Subtítulo grande — abaixo de H1/Display                         */
+  .type-subtitle-lg {
+    font-family: var(--font-nexa-light);
+    font-size: clamp(1.0625rem, 1.6vw, 1.375rem);
+    line-height: 1.55;
+    letter-spacing: -0.005em;
+  }
+
+  /* Subtítulo normal                                                 */
+  .type-subtitle {
+    font-family: var(--font-nexa-light);
+    font-size: clamp(0.9375rem, 1.2vw, 1.125rem);
+    line-height: 1.55;
+    letter-spacing: 0;
+  }
+
+  /* ── CORPO DE TEXTO ──────────────────────────────────────────────
+     Nexa Light. Alto line-height para conforto de leitura.
+  ──────────────────────────────────────────────────────────────────── */
+
+  /* Body LG — Lead paragraphs, excerpts                             */
+  .type-body-lg {
+    font-family: var(--font-nexa-light);
+    font-size: clamp(1rem, 1.25vw, 1.1875rem);
+    line-height: 1.75;
+    letter-spacing: 0;
+  }
+
+  /* Body — Texto normal                                              */
+  .type-body {
+    font-family: var(--font-nexa-light);
+    font-size: 1rem;
+    line-height: 1.7;
+    letter-spacing: 0;
+  }
+
+  /* Body SM — Texto secundário, metadata                             */
+  .type-body-sm {
+    font-family: var(--font-nexa-light);
+    font-size: 0.875rem;
+    line-height: 1.65;
+    letter-spacing: 0;
+  }
+
+  /* ── CAPTIONS & LABELS ───────────────────────────────────────────
+     Escala pequena. Labels sempre Nexa Bold + uppercase.
+  ──────────────────────────────────────────────────────────────────── */
+
+  /* Caption — Legendas de imagem, texto de suporte                   */
+  .type-caption {
+    font-family: var(--font-nexa-light);
+    font-size: 0.75rem;
+    line-height: 1.5;
+    letter-spacing: 0;
+  }
+
+  /* Label — Tags, badges, estado de obra (uppercase Bold)            */
+  .type-label {
+    font-family: var(--font-nexa-bold);
+    font-size: 0.6875rem;
+    line-height: 1.2;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+
+  /* Overline — Eyebrows de secção, categoria de blog (uppercase Light) */
+  .type-overline {
+    font-family: var(--font-nexa-light);
+    font-size: 0.6875rem;
+    line-height: 1.2;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+  }
+
+  /* ── CITAÇÕES ────────────────────────────────────────────────────
+     Nexa Light com tamanho generoso e line-height amplo.
+  ──────────────────────────────────────────────────────────────────── */
+
+  .type-quote {
+    font-family: var(--font-nexa-light);
+    font-size: clamp(1.25rem, 2.2vw, 1.875rem);
+    line-height: 1.5;
+    letter-spacing: -0.01em;
+  }
+
+  /* ── ELEMENTOS DE INTERFACE ──────────────────────────────────────
+     Navbar, botões, formulários, breadcrumbs, footer.
+  ──────────────────────────────────────────────────────────────────── */
+
+  /* Navbar — Links de navegação                                      */
+  .type-nav {
+    font-family: var(--font-nexa-light);
+    font-size: 0.8125rem;
+    line-height: 1;
+    letter-spacing: 0.02em;
+  }
+
+  /* Navbar logo / nome do artista (navbar)                           */
+  .type-nav-logo {
+    font-family: var(--font-nexa-bold);
+    font-size: 1.0625rem;
+    line-height: 1;
+    letter-spacing: -0.01em;
+  }
+
+  /* Botões — CTA principal e secundário                              */
+  .type-btn {
+    font-family: var(--font-nexa-bold);
+    font-size: 0.8125rem;
+    line-height: 1;
+    letter-spacing: 0.04em;
+  }
+
+  /* Footer — Texto de rodapé                                         */
+  .type-footer-body {
+    font-family: var(--font-nexa-light);
+    font-size: 0.8125rem;
+    line-height: 1.6;
+    letter-spacing: 0;
+  }
+
+  /* Footer — Headings de coluna                                      */
+  .type-footer-heading {
+    font-family: var(--font-nexa-bold);
+    font-size: 0.625rem;
+    line-height: 1;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+  }
+
+  /* ── FORMULÁRIOS ─────────────────────────────────────────────────
+     Inputs, textareas, placeholders, mensagens de sistema.
+  ──────────────────────────────────────────────────────────────────── */
+
+  /* Input / Textarea                                                 */
+  .type-input {
+    font-family: var(--font-nexa-light);
+    font-size: 0.9375rem;
+    line-height: 1.5;
+    letter-spacing: 0;
+  }
+
+  /* Placeholder                                                      */
+  .type-placeholder {
+    font-family: var(--font-nexa-light);
+    font-size: 0.875rem;
+    line-height: 1.5;
+    letter-spacing: 0;
+  }
+
+  /* Form label                                                       */
+  .type-form-label {
+    font-family: var(--font-nexa-bold);
+    font-size: 0.625rem;
+    line-height: 1;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+  }
+
+  /* Mensagem de sistema / erro / sucesso                             */
+  .type-system {
+    font-family: var(--font-nexa-light);
+    font-size: 0.8125rem;
+    line-height: 1.45;
+    letter-spacing: 0;
+  }
+
+  /* ── CONTEÚDO ARTÍSTICO ──────────────────────────────────────────
+     Títulos de obras, exposições, nome do artista nos cards.
+  ──────────────────────────────────────────────────────────────────── */
+
+  /* Nome do artista — principal (hero, footer, about)                */
+  .type-artist-name {
+    font-family: var(--font-nexa-bold);
+    font-size: clamp(1.5rem, 3vw, 3rem);
+    line-height: 0.95;
+    letter-spacing: -0.025em;
+  }
+
+  /* Título de obra — nos cards                                       */
+  .type-artwork-title {
+    font-family: var(--font-nexa-bold);
+    font-size: clamp(0.9375rem, 1.2vw, 1.1875rem);
+    line-height: 1.2;
+    letter-spacing: -0.01em;
+  }
+
+  /* Título de exposição — nos cards                                  */
+  .type-exhibition-title {
+    font-family: var(--font-nexa-bold);
+    font-size: clamp(0.9375rem, 1.2vw, 1.1875rem);
+    line-height: 1.2;
+    letter-spacing: -0.01em;
+  }
+
+  /* Metadata de card — ano, técnica, dimensões                       */
+  .type-card-meta {
+    font-family: var(--font-nexa-light);
+    font-size: 0.75rem;
+    line-height: 1.4;
+    letter-spacing: 0;
+  }
+
+  /* Breadcrumbs                                                      */
+  .type-breadcrumb {
+    font-family: var(--font-nexa-light);
+    font-size: 0.75rem;
+    line-height: 1;
+    letter-spacing: 0.04em;
+  }
+
+}
+
+/* ── Scroll animations ───────────────────────────────────────────────── */
+
+@layer utilities {
+  .fade-up {
+    opacity: 0;
+    transform: translateY(24px);
+    transition: opacity 0.7s cubic-bezier(0.22, 1, 0.36, 1),
+                transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .fade-up.in-view {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  .fade-in {
+    opacity: 0;
+    transition: opacity 0.7s ease;
+  }
+  .fade-in.in-view {
+    opacity: 1;
+  }
+}
+
+/* ── Scrollbar ───────────────────────────────────────────────────────── */
+
+::-webkit-scrollbar        { width: 5px; }
+::-webkit-scrollbar-track  { background: transparent; }
+::-webkit-scrollbar-thumb  { background: #d1cdc5; border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: #aaa69e; }
+
+/* ── Leaflet overrides ───────────────────────────────────────────────── */
+
+.leaflet-container {
+  font-family: var(--font-nexa-light), sans-serif;
+}
+.leaflet-popup-content-wrapper {
+  border-radius: 12px !important;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.12) !important;
+  padding: 0 !important;
+  overflow: hidden;
+}
+.leaflet-popup-content { margin: 0 !important; }
+.leaflet-popup-tip-container { display: none; }
+
+/* ── Rich text / blog content ────────────────────────────────────────── */
+
+.prose-nexa {
+  font-family: var(--font-nexa-light);
+  font-size: 1rem;
+  line-height: 1.75;
+  color: #6b6b6b;
+}
+.prose-nexa p   { margin-bottom: 1.5em; }
+.prose-nexa h2  { font-family: var(--font-nexa-bold); font-size: clamp(1.375rem, 2vw, 1.75rem); line-height: 1.1; letter-spacing: -0.02em; color: #1a1a1a; margin: 2.5em 0 0.75em; }
+.prose-nexa h3  { font-family: var(--font-nexa-bold); font-size: clamp(1.125rem, 1.5vw, 1.375rem); line-height: 1.2; letter-spacing: -0.015em; color: #1a1a1a; margin: 2em 0 0.5em; }
+.prose-nexa a   { color: #9a3b2e; text-decoration: none; }
+.prose-nexa a:hover { text-decoration: underline; }
+.prose-nexa strong  { font-family: var(--font-nexa-bold); color: #1a1a1a; }
+.prose-nexa em      { font-style: normal; color: #1a1a1a; }
+.prose-nexa blockquote {
+  border-left: 2px solid #9a3b2e;
+  padding-left: 1.5rem;
+  margin: 2rem 0;
+  font-family: var(--font-nexa-light);
+  font-size: 1.0625rem;
+  line-height: 1.6;
+  color: #1a1a1a;
+}
+.prose-nexa img { border-radius: 8px; }
+.prose-nexa ul, .prose-nexa ol { padding-left: 1.5rem; margin-bottom: 1.5em; }
+.prose-nexa li  { margin-bottom: 0.5em; }

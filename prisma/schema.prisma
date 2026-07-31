@@ -1,0 +1,275 @@
+// ─────────────────────────────────────────────────────────────
+//  Schema da base de dados — Artist CMS
+//  Base relacional (PostgreSQL) preparada para crescer.
+// ─────────────────────────────────────────────────────────────
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// ── Enums ─────────────────────────────────────────────────────
+
+enum Role {
+  ADMIN
+  EDITOR
+}
+
+enum PostStatus {
+  DRAFT // rascunho
+  SCHEDULED // agendado
+  PUBLISHED // publicado
+}
+
+enum MediaType {
+  IMAGE
+  PDF
+  DOCUMENT
+}
+
+enum ArtworkStatus {
+  ON_EXHIBITION // em exposição
+  PRIVATE_COLLECTION // coleção privada
+  AVAILABLE // disponível
+  SOLD // vendida
+  NOT_FOR_SALE // não disponível
+}
+
+// ── Autenticação e permissões ─────────────────────────────────
+
+model User {
+  id           String   @id @default(cuid())
+  name         String
+  email        String   @unique
+  passwordHash String
+  role         Role     @default(EDITOR)
+  posts        Post[]
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+}
+
+// ── Media (transversal: imagens, PDFs, catálogos, documentos) ──
+
+model Media {
+  id        String    @id @default(cuid())
+  url       String
+  filename  String
+  mimeType  String
+  size      Int
+  type      MediaType @default(IMAGE)
+  alt       String?
+  createdAt DateTime  @default(now())
+
+  // back-relations
+  postsFeatured    Post[]
+  postImages       PostImage[]
+  artworksFeatured Artwork[]
+  artworkImages    ArtworkImage[]
+  exhibitionImages ExhibitionImage[]
+  mapPins          MapPin[]
+  aboutPages       AboutPage[]
+  homePages        HomePage[]
+}
+
+// ── Blog ──────────────────────────────────────────────────────
+
+model Post {
+  id          String     @id @default(cuid())
+  title       String
+  slug        String     @unique
+  excerpt     String?
+  content     String     @default("") // texto rico (HTML do editor WYSIWYG)
+  status      PostStatus @default(DRAFT)
+  publishedAt DateTime?
+  scheduledAt DateTime?
+
+  author   User?   @relation(fields: [authorId], references: [id], onDelete: SetNull)
+  authorId String?
+
+  featuredImage   Media?  @relation(fields: [featuredImageId], references: [id], onDelete: SetNull)
+  featuredImageId String?
+
+  images     PostImage[]
+  categories Category[]
+  tags       Tag[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([status])
+  @@index([publishedAt])
+}
+
+model PostImage {
+  id      String @id @default(cuid())
+  post    Post   @relation(fields: [postId], references: [id], onDelete: Cascade)
+  postId  String
+  media   Media  @relation(fields: [mediaId], references: [id], onDelete: Cascade)
+  mediaId String
+  order   Int    @default(0)
+}
+
+model Category {
+  id    String @id @default(cuid())
+  name  String @unique
+  slug  String @unique
+  posts Post[]
+}
+
+model Tag {
+  id    String @id @default(cuid())
+  name  String @unique
+  slug  String @unique
+  posts Post[]
+}
+
+// ── Obras ─────────────────────────────────────────────────────
+
+model Artwork {
+  id              String        @id @default(cuid())
+  title           String
+  slug            String        @unique
+  description     String?
+  technique       String? // técnica utilizada
+  year            Int?
+  dimensions      String? // ex.: "120 x 80 cm"
+  currentLocation String? // localização atual
+  status          ArtworkStatus @default(AVAILABLE)
+
+  featuredImage   Media?  @relation(fields: [featuredImageId], references: [id], onDelete: SetNull)
+  featuredImageId String?
+
+  images  ArtworkImage[]
+  mapPins MapPin[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([status])
+}
+
+model ArtworkImage {
+  id        String  @id @default(cuid())
+  artwork   Artwork @relation(fields: [artworkId], references: [id], onDelete: Cascade)
+  artworkId String
+  media     Media   @relation(fields: [mediaId], references: [id], onDelete: Cascade)
+  mediaId   String
+  order     Int     @default(0)
+}
+
+// ── Mapa (pinpoints) ──────────────────────────────────────────
+
+model MapPin {
+  id             String    @id @default(cuid())
+  latitude       Float
+  longitude      Float
+  city           String?
+  country        String?
+  exhibitionDate DateTime?
+  description    String?
+
+  artwork   Artwork? @relation(fields: [artworkId], references: [id], onDelete: SetNull)
+  artworkId String?
+
+  image   Media?  @relation(fields: [imageId], references: [id], onDelete: SetNull)
+  imageId String?
+
+  createdAt DateTime @default(now())
+}
+
+// ── Exposições ────────────────────────────────────────────────
+
+model Exhibition {
+  id          String    @id @default(cuid())
+  title       String
+  slug        String    @unique
+  startDate   DateTime?
+  endDate     DateTime?
+  venue       String? // local
+  city        String?
+  country     String?
+  description String?
+
+  images ExhibitionImage[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model ExhibitionImage {
+  id           String     @id @default(cuid())
+  exhibition   Exhibition @relation(fields: [exhibitionId], references: [id], onDelete: Cascade)
+  exhibitionId String
+  media        Media      @relation(fields: [mediaId], references: [id], onDelete: Cascade)
+  mediaId      String
+  order        Int        @default(0)
+}
+
+// ── Páginas de conteúdo (singletons editáveis) ────────────────
+
+model AboutPage {
+  id                String   @id @default(cuid())
+  key               String   @unique @default("about")
+  biography         String? // biografia
+  artisticJourney   String? // percurso artístico
+  education         String? // formação
+  influences        String? // influências
+  institutionalText String? // texto institucional
+  artistPhoto       Media?   @relation(fields: [artistPhotoId], references: [id], onDelete: SetNull)
+  artistPhotoId     String?
+  updatedAt         DateTime @updatedAt
+}
+
+model HomePage {
+  id          String  @id @default(cuid())
+  key         String  @unique @default("home")
+  mainText    String? // texto principal
+  mainImage   Media?  @relation(fields: [mainImageId], references: [id], onDelete: SetNull)
+  mainImageId String?
+
+  // referências curadas (IDs de obras/posts/exposições selecionados)
+  featuredArtworkId    String?
+  highlights           Json? // destaques
+  recentNewsIds        Json? // notícias recentes selecionadas
+  featuredExhibitionId String?
+
+  updatedAt DateTime @updatedAt
+}
+
+// ── Mensagens de contacto ─────────────────────────────────────
+
+model Message {
+  id        String   @id @default(cuid())
+  name      String
+  email     String
+  subject   String?
+  body      String
+  read      Boolean  @default(false)
+  createdAt DateTime @default(now())
+}
+
+// ── Contactos ─────────────────────────────────────────────────
+
+model ContactInfo {
+  id        String       @id @default(cuid())
+  key       String       @unique @default("contact")
+  email     String?
+  phone     String?
+  address   String?
+  hours     String? // horários
+  socials   SocialLink[]
+  updatedAt DateTime     @updatedAt
+}
+
+model SocialLink {
+  id        String      @id @default(cuid())
+  platform  String // ex.: "Instagram"
+  url       String
+  order     Int         @default(0)
+  contact   ContactInfo @relation(fields: [contactId], references: [id], onDelete: Cascade)
+  contactId String
+}
