@@ -16,38 +16,17 @@ const links = [
 
 export function Navbar() {
   const pathname = usePathname();
-  const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
-
-  useEffect(() => {
-    const handler = () => setScrolled(window.scrollY > 40);
-    window.addEventListener("scroll", handler, { passive: true });
-    return () => window.removeEventListener("scroll", handler);
-  }, []);
 
   useEffect(() => { setOpen(false); }, [pathname]);
 
-  const isHome = pathname === "/";
-  const transparent = !scrolled && !open && isHome;
-
   return (
     <>
-      <header
-        className={`fixed inset-x-0 top-0 z-50 transition-all duration-500 ${
-          transparent
-            ? "bg-transparent"
-            : "bg-paper/96 backdrop-blur-md border-b border-line"
-        }`}
-      >
+      <header className="fixed inset-x-0 top-0 z-50 bg-paper/96 backdrop-blur-md border-b border-line">
         <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-6 lg:px-10">
 
           {/* Logo */}
-          <Link
-            href="/"
-            className={`type-nav-logo transition-colors duration-300 ${
-              transparent ? "text-paper" : "text-ink"
-            }`}
-          >
+          <Link href="/" className="type-nav text-muted hover:text-ink transition-colors duration-200">
             Luís Campos
           </Link>
 
@@ -58,11 +37,7 @@ export function Navbar() {
                 key={link.href}
                 href={link.href}
                 className={`type-nav transition-colors duration-200 ${
-                  pathname.startsWith(link.href)
-                    ? "text-accent"
-                    : transparent
-                    ? "text-paper/75 hover:text-paper"
-                    : "text-muted hover:text-ink"
+                  pathname.startsWith(link.href) ? "text-accent" : "text-muted hover:text-ink"
                 }`}
               >
                 {link.label}
@@ -72,9 +47,7 @@ export function Navbar() {
 
           {/* Mobile toggle */}
           <button
-            className={`md:hidden p-2 transition-colors duration-300 ${
-              transparent ? "text-paper" : "text-ink"
-            }`}
+            className="md:hidden p-2 text-ink transition-colors duration-300"
             onClick={() => setOpen((v) => !v)}
             aria-label={open ? "Fechar menu" : "Abrir menu"}
           >

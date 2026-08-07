@@ -93,6 +93,10 @@ async function main() {
       education: "Arteterapia (2020–2022) · Curadoria (2022) · Scroll Saw com Mestre Pedro Santos (2012) · Pirografia (2005)",
       influences: "Mestre Pedro Santos — figura central na aprendizagem do Scroll Saw e na consolidação de uma prática artística rigorosa. O mestre Artur Bual e a tradição da gravura europeia são também referências permanentes.",
       institutionalText: "\"Cada talho na madeira é uma decisão irreversível. É onde a arte e o ofício se tornam a mesma coisa.\"",
+      heroSubtitle:  "Artista plástico e xilografista.\nZibreira, Torres Novas — Portugal.",
+      birthplace:    "1985, Zibreira",
+      mainTechnique: "Xilogravura",
+      curatorRole:   "H. dos Cavaleiros",
     },
     create: {
       key:      "about",
@@ -101,6 +105,10 @@ async function main() {
       education: "Arteterapia (2020–2022) · Curadoria (2022) · Scroll Saw com Mestre Pedro Santos (2012) · Pirografia (2005)",
       influences: "Mestre Pedro Santos — figura central na aprendizagem do Scroll Saw e na consolidação de uma prática artística rigorosa. O mestre Artur Bual e a tradição da gravura europeia são também referências permanentes.",
       institutionalText: "\"Cada talho na madeira é uma decisão irreversível. É onde a arte e o ofício se tornam a mesma coisa.\"",
+      heroSubtitle:  "Artista plástico e xilografista.\nZibreira, Torres Novas — Portugal.",
+      birthplace:    "1985, Zibreira",
+      mainTechnique: "Xilogravura",
+      curatorRole:   "H. dos Cavaleiros",
     },
   });
   console.log("✓ Página Sobre");
@@ -108,8 +116,17 @@ async function main() {
   // ── Página Inicial ─────────────────────────────────────────────
   await prisma.homePage.upsert({
     where:  { key: "home" },
-    update: { mainText: "Xilogravura é uma arte de subtração.\nO artista remove tudo o que não é a obra —\no que sobra é a imagem." },
-    create: { key: "home", mainText: "Xilogravura é uma arte de subtração.\nO artista remove tudo o que não é a obra —\no que sobra é a imagem." },
+    update: {
+      mainText:    "Xilogravura é uma arte de subtração.\nO artista remove tudo o que não é a obra —\no que sobra é a imagem.",
+      quote:       "A madeira guarda a memória de cada golpe, tal como a arte guarda a memória do artista.",
+      marqueeText: "Xilogravura · Arte Plástica · Torres Novas · Portugal · Gravura em Madeira",
+    },
+    create: {
+      key:         "home",
+      mainText:    "Xilogravura é uma arte de subtração.\nO artista remove tudo o que não é a obra —\no que sobra é a imagem.",
+      quote:       "A madeira guarda a memória de cada golpe, tal como a arte guarda a memória do artista.",
+      marqueeText: "Xilogravura · Arte Plástica · Torres Novas · Portugal · Gravura em Madeira",
+    },
   });
   console.log("✓ Página Inicial");
 

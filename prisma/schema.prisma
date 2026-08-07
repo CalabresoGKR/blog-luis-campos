@@ -218,7 +218,11 @@ model AboutPage {
   artisticJourney   String? // percurso artístico
   education         String? // formação
   influences        String? // influências
-  institutionalText String? // texto institucional
+  institutionalText String? // texto institucional / citação final
+  heroSubtitle      String? // subtítulo no hero da página Sobre
+  birthplace        String? // ex: "1985, Zibreira"
+  mainTechnique     String? // ex: "Xilogravura"
+  curatorRole       String? // ex: "H. dos Cavaleiros"
   artistPhoto       Media?   @relation(fields: [artistPhotoId], references: [id], onDelete: SetNull)
   artistPhotoId     String?
   updatedAt         DateTime @updatedAt
@@ -227,14 +231,15 @@ model AboutPage {
 model HomePage {
   id          String  @id @default(cuid())
   key         String  @unique @default("home")
-  mainText    String? // texto principal
+  mainText    String? // texto principal (hero)
+  quote       String? // citação na secção do meio
+  marqueeText String? // texto do marquee (banda animada)
   mainImage   Media?  @relation(fields: [mainImageId], references: [id], onDelete: SetNull)
   mainImageId String?
 
-  // referências curadas (IDs de obras/posts/exposições selecionados)
   featuredArtworkId    String?
-  highlights           Json? // destaques
-  recentNewsIds        Json? // notícias recentes selecionadas
+  highlights           Json?
+  recentNewsIds        Json?
   featuredExhibitionId String?
 
   updatedAt DateTime @updatedAt

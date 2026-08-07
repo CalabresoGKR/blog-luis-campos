@@ -34,11 +34,13 @@ export default async function SobrePage() {
         <FadeIn delay={100}>
           <h1 className="type-display-lg text-ink leading-none">Luís<br />Campos</h1>
         </FadeIn>
-        <FadeIn delay={200}>
-          <p className="type-subtitle text-muted mt-6 max-w-sm">
-            Artista plástico e xilografista.<br />Zibreira, Torres Novas — Portugal.
-          </p>
-        </FadeIn>
+        {(about?.heroSubtitle) && (
+          <FadeIn delay={200}>
+            <p className="type-subtitle text-muted mt-6 max-w-sm whitespace-pre-line">
+              {about.heroSubtitle}
+            </p>
+          </FadeIn>
+        )}
       </section>
 
       {/* ── BIOGRAFIA + FOTO ── */}
@@ -98,10 +100,10 @@ export default async function SobrePage() {
             <FadeIn delay={100}>
               <div className="grid grid-cols-2 gap-3">
                 {[
-                  { label: "Nascimento", value: "1985, Zibreira" },
-                  { label: "Técnica",    value: "Xilogravura" },
+                  { label: "Nascimento", value: about?.birthplace    ?? "1985, Zibreira" },
+                  { label: "Técnica",    value: about?.mainTechnique ?? "Xilogravura" },
                   { label: "Exposições", value: `${exhibitions.length}` },
-                  { label: "Curador",    value: "H. dos Cavaleiros" },
+                  { label: "Curador",    value: about?.curatorRole   ?? "H. dos Cavaleiros" },
                 ].map((item) => (
                   <div key={item.label} className="bg-canvas p-4 rounded-xl">
                     <p className="type-overline text-muted/50 mb-1">{item.label}</p>

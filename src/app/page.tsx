@@ -101,15 +101,17 @@ export default async function HomePage() {
       </section>
 
       {/* ── MARQUEE ──────────────────────────────────────────────────── */}
-      <div className="bg-accent text-paper py-3.5 overflow-hidden select-none">
-        <div className="flex animate-marquee">
-          {Array.from({ length: 4 }).map((_, i) => (
-            <span key={i} className="type-label shrink-0 px-10 opacity-75">
-              Xilogravura &nbsp;·&nbsp; Arte Plástica &nbsp;·&nbsp; Torres Novas &nbsp;·&nbsp; Portugal &nbsp;·&nbsp; Gravura em Madeira &nbsp;·&nbsp;
-            </span>
-          ))}
+      {(homePage?.marqueeText) && (
+        <div className="bg-accent text-paper py-3.5 overflow-hidden select-none">
+          <div className="flex animate-marquee">
+            {Array.from({ length: 4 }).map((_, i) => (
+              <span key={i} className="type-label shrink-0 px-10 opacity-75">
+                {homePage.marqueeText} &nbsp;·&nbsp;
+              </span>
+            ))}
+          </div>
         </div>
-      </div>
+      )}
 
       {/* ── OBRAS EM DESTAQUE ─────────────────────────────────────────── */}
       {artworks.length > 0 && (
@@ -145,21 +147,23 @@ export default async function HomePage() {
       )}
 
       {/* ── CITAÇÃO ───────────────────────────────────────────────────── */}
-      <section className="bg-canvas py-24 lg:py-32 px-6 lg:px-10">
-        <div className="max-w-4xl mx-auto text-center">
-          <FadeIn>
-            <span className="type-display-lg text-accent/20 leading-none select-none">&ldquo;</span>
-          </FadeIn>
-          <FadeIn delay={100}>
-            <blockquote className="type-quote text-ink mt-[-1rem]">
-              A madeira guarda a memória de cada golpe, tal como a arte guarda a memória do artista.
-            </blockquote>
-          </FadeIn>
-          <FadeIn delay={200}>
-            <cite className="type-overline text-muted not-italic mt-6 block">Luís Campos</cite>
-          </FadeIn>
-        </div>
-      </section>
+      {homePage?.quote && (
+        <section className="bg-canvas py-24 lg:py-32 px-6 lg:px-10">
+          <div className="max-w-4xl mx-auto text-center">
+            <FadeIn>
+              <span className="type-display-lg text-accent/20 leading-none select-none">&ldquo;</span>
+            </FadeIn>
+            <FadeIn delay={100}>
+              <blockquote className="type-quote text-ink mt-[-1rem]">
+                {homePage.quote}
+              </blockquote>
+            </FadeIn>
+            <FadeIn delay={200}>
+              <cite className="type-overline text-muted not-italic mt-6 block">Luís Campos</cite>
+            </FadeIn>
+          </div>
+        </section>
+      )}
 
       {/* ── EXPOSIÇÕES ───────────────────────────────────────────────── */}
       {upcomingExhibitions.length > 0 && (

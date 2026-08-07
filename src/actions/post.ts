@@ -1,38 +1,12 @@
 "use server";
 
-import fs from "fs/promises";
-import path from "path";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { auth } from "@/auth";
 import { prisma } from "@/lib/prisma";
 import { slugify } from "@/lib/utils";
+import { saveImage } from "@/lib/upload";
 import type { PostStatus } from "@prisma/client";
-
-async function saveImage(file: File): Promise<string | null> {
-  if (!file || file.size === 0) return null;
-
-  const bytes = await file.arrayBuffer();
-  const buffer = Buffer.from(bytes);
-  const ext = file.name.split(".").pop()?.toLowerCase() ?? "jpg";
-  const filename = `${crypto.randomUUID()}.${ext}`;
-  const uploadDir = path.join(process.cwd(), "public", "uploads");
-
-  await fs.mkdir(uploadDir, { recursive: true });
-  await fs.writeFile(path.join(uploadDir, filename), buffer);
-
-  const media = await prisma.media.create({
-    data: {
-      url: `/uploads/${filename}`,
-      filename: file.name,
-      mimeType: file.type || "image/jpeg",
-      size: file.size,
-      type: "IMAGE",
-    },
-  });
-
-  return media.id;
-}
 
 // Converte texto simples em parágrafos HTML
 function textToHtml(text: string): string {
